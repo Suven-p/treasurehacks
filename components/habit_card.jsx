@@ -1,5 +1,6 @@
 import React from "react";
 import "../app/globals.css";
+import { FcOk } from "react-icons/fc";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 
 const HabitCard = (props) => {
@@ -16,24 +17,19 @@ const HabitCard = (props) => {
           alt={title}
         />
         <div className="justify-between p-4 leading-normal">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
+          <h5 className="mb-2 text-[1.2rem] font-bold tracking-tight text-gray-900 ">
             {title}
           </h5>
           {isCompleted ? (
             <div className="completed flex items-center space-x-1">
-              <img
-                className="h-[1rem] w-[1rem]"
-                src="https://cdn-icons-png.flaticon.com/512/4315/4315445.png"
-                alt="check"
-              />
+              <FcOk className="text-[1.1rem]" />
               <p className="text-gray-700 ">Completed</p>
-              {/* <AiOutlineCheckCircle className="color-green-100" /> */}
             </div>
           ) : (
             <div className="flex items-center space-x-1">
               <img
                 className="h-[1rem] w-[1rem]"
-                src="https://cdn-icons-png.flaticon.com/512/463/463575.png"
+                src="https://cdn-icons-png.flaticon.com/512/6897/6897039.png"
                 alt="remaining"
               />
               <p className="text-gray-700 ">Remaining</p>

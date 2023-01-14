@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../app/globals.css";
 import HabitCard from "../components/habit_card.jsx";
 import TopWelcome from "../components/top_welcome.jsx";
 import CalendarCard from "../components/calendar.jsx";
 import CircularSlider from "@fseehawer/react-circular-slider";
+import internal from "stream";
 
 const HabitTracker = () => {
   const [userDetails, setUserDetails] = React.useState({
@@ -30,6 +31,17 @@ const HabitTracker = () => {
   ]);
   const [totalComplete, setTotalComplete] = React.useState(2);
   const [totalWork, setTotalWork] = React.useState(3);
+
+  useEffect(() => {
+    setTotalComplete(
+      habits.reduce((acc, habit) => acc + Number(habit.isCompleted), 0)
+    );
+  }, [habits]);
+
+  useEffect(() => {
+    setTotalWork(habits.reduce((acc, habit) => acc + 1, 0));
+  }, [habits]);
+
   return (
     <div className="habit-tracker m-5 mt-10">
       <TopWelcome name={userDetails.name} image={userDetails.image} />
@@ -38,24 +50,42 @@ const HabitTracker = () => {
 
       <CalendarCard />
       <br />
+      <div className="flex justify-center items-center space-x-10">
+        <div>
+          <CircularSlider
+            width={125}
+            label=" "
+            labelBottom={true}
+            labelColor={totalComplete == totalWork ? "#00ff00" : "#6D6DC1"}
+            direction={1}
+            progressSize={10}
+            max={100}
+            trackSize={10}
+            knobDraggable={false}
+            dataIndex={(totalComplete / totalWork) * 100}
+            knobPosition="top"
+            labelFontSize="0rem"
+            valueFontSize="2rem"
+            trackColor="#bbbbbb"
+            progressColorFrom="#6D6DC1"
+            progressColorTo="#6D6DC1"
+            hideKnob={true}
+            data={Array.from({ length: 101 }, (v, k) => k + "%")}
+          />
+        </div>
+        <div className="flex-wrap text-center">
+          {totalComplete} of {totalWork} completed
+          <div className="font-bold text-xl">My Activities</div>
+        </div>
+      </div>
 
-      <CircularSlider
-        label="Task Complete"
-        labelColor={totalComplete == totalWork ? "#00ff00" : "#ff6600"}
-        direction={1}
-        progressSize={10}
-        knobPosition="top"
-        valueFontSize="4rem"
-        trackColor="#eeeeee"
-        progressColorFrom="#ff6600"
-        progressColorTo="#00ff00"
-        knobColor="#ffffff"
-      />
+      <br />
       <div className="habit-tracker-title font-bold">Habit Tracker</div>
       <div className="habit-tracker-cards">
-        {habits.map((habit) => {
+        {habits.map((habit, index) => {
           return (
             <HabitCard
+              key={index}
               image={habit.image}
               title={habit.title}
               isCompleted={habit.isCompleted}

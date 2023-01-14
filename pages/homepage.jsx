@@ -40,8 +40,8 @@ function homepage() {
         </div>
       </div>
       <div className="flex flex-row items-center space-x-10 justify-center">
-        <div className="text-4xl text-white flex-wrap text-center font-bold w-2/4 ">
-          Random Quate
+        <div className="text-3xl text-white flex-wrap text-center  w-2/4 ">
+          Empowering healthier living, anytime, anywhere.
         </div>
         <Link className=" " href="/login">
           <div className="flex bg-white rounded-full w-[10vh] h-[10vh] items-center justify-center ">

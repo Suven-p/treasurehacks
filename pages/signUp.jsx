@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import "../app/globals.css";
 import { Roboto } from "@next/font/google";
+import Link from "next/link";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "700"] });
 
@@ -13,6 +14,7 @@ function SignupPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [error, setError] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -22,8 +24,12 @@ function SignupPage() {
         email,
         password
       );
+      if (userCredential) {
+        await signInWithEmailAndPassword(auth, email, password);
+      }
       console.log("Successfully created user!", userCredential);
     } catch (error) {
+      setError(error);
       console.error(error);
     }
   };
@@ -55,6 +61,7 @@ function SignupPage() {
           <label className="block text-white font-medium mb-2">Password</label>
           <input
             {...register("password", { required: true })}
+            type="password"
             className={`w-full border border-gray-400 p-2 rounded-lg ${
               errors.password ? "border-red-500" : ""
             }`}
@@ -63,6 +70,12 @@ function SignupPage() {
             <p className="text-red-500 text-xs">Password is required</p>
           )}
         </div>
+        <div className="flex justify-end text-white">
+          <Link href="/login" className="grow text-end">
+            Already An User? Sign In.
+          </Link>
+        </div>
+        {error && <p className="text-red-500">{error.message}</p>}
         <div className="flex flex-col justify-center items-center">
           <button className="bg-indigo-600 text-white drop-shadow-2xl p-2 rounded-lg hover:bg-indigo-800">
             Sign Up

@@ -1,96 +1,191 @@
-import React from 'react';
-import '../app/globals.css';
-import CircularSlider from '@fseehawer/react-circular-slider';
-import { BsCircle, BsFillCalendarEventFill } from 'react-icons/bs';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { Roboto } from '@next/font/google';
-import {addDoc, collection, getDocs, query} from "firebase/firestore";
-import {firestore} from '../firebase';
+import React, { useContext } from "react";
+import "../app/globals.css";
+import CircularSlider from "@fseehawer/react-circular-slider";
+import { BsCircle, BsFillCalendarEventFill } from "react-icons/bs";
+import { AiOutlineEdit, AiOutlinePlus } from "react-icons/ai";
+import { Roboto } from "@next/font/google";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+} from "firebase/firestore";
+import { firestore } from "../firebase";
+import SleepCard from "../components/sleep";
+import SleepSlider from "../components/sleepslider";
+import { AuthContext } from "../context/AuthContext";
 
-const roboto = Roboto({ subsets: ['latin'], weight: ['100', '300', '700'] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "700"] });
 
 function toDigits(n: number) {
-    return n < 10 ? `0${n}` : n;
+  return n < 10 ? `0${n}` : n;
 }
 
+function todaysFormattedDate() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth(); // Months start at 0!
+  let dd = today.getDate();
+
+  if (dd < 10) dd = "0" + dd;
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const formattedToday = dd + " " + months[mm] + ", " + yyyy;
+  return formattedToday;
+}
+const useSleepData = () => {};
 const sleepTracker = () => {
-  React.useEffect( () => {
+  const user = useContext(AuthContext);
+  const [sleepRecord, setSleepRecord] = React.useState([]);
+  const todaysDate = todaysFormattedDate();
+
+  React.useEffect(() => {
     (async () => {
-      const sleepDataRef = collection(firestore, 'SleepData');
-      const snapshot = await getDocs(sleepDataRef);
-      snapshot.forEach(doc => {
-        console.log(doc.id, doc.data());
+      if (!user || !user.user) return;
+      const coll = collection(firestore, "users", user.user.uid, "sleep");
+      const querySnapshot = await getDocs(coll);
+      const records = [];
+      querySnapshot.forEach((doc) => {
+        records.push({
+          date: doc.id,
+          hours: doc.data().sleep,
+        });
       });
-    })();    
-  })
-    const [sleepRecord, setSleepRecord] = React.useState([
-        {
-            date: '2021-08-01',
-            hours: '22:00',
-        },
-        {
-            date: '2021-08-02',
-            hours: '22:00',
-        }
-    ]);
-    let timeData = [];
-    for (let i = 0; i < 24; i++) {
-        for (let j = 0; j < 60; j++) {
-            timeData.push(`${i}:${toDigits(j)}`);
-        }
+      setSleepRecord(records);
+    })();
+  });
+  let timeData = [];
+  for (let i = 0; i < 24; i++) {
+    for (let j = 0; j < 60; j++) {
+      timeData.push(`${i}:${toDigits(j)}`);
     }
-    const [sleepTime, setSleepTime] = React.useState(timeData[0]);
-    return (
-      <div className="flex flex-col bg-white w-[100vw] h-[100vh]">
-        <div className="h-1/2 bg-white">
-          <div className="h-full rounded-bl-[10vw] bg-gradient-to-br from-[#75D6F5] to-[#E17576] flex flex-col justify-center items-center">
+  }
+  const [sleepTime, setSleepTime] = React.useState(0);
+
+  const clickHandler = () => {
+    setSleepRecord((prevRecord) => {
+      if (prevRecord && prevRecord[0].date === todaysDate) {
+        prevRecord[0].hours = sleepTime;
+        return prevRecord;
+      }
+      return [
+        {
+          date: todaysDate,
+          hours: sleepTime,
+        },
+        ...prevRecord,
+      ];
+    });
+    setSleepTime(0);
+  };
+  return (
+    <div className="flex flex-col bg-white w-[100vw] h-[100vh]">
+      <div className="h-1/2 bg-white">
+        <div className="h-full rounded-bl-[10vw] bg-gradient-to-br from-[#D8D8EE] to-[#6D6DC1] flex flex-col justify-center items-center">
+          <div className="bg-white rounded-full h-[250px] w-[250px] flex justify-center items-center">
             <CircularSlider
               direction={1}
               knobPosition="top"
               valueFontSize="4rem"
-              trackColor="#eeeeee"
+              trackColor="rgba(255,255,255,0.5)"
               data={timeData}
               label="Sleep Time"
-              progressColorFrom="#59C173"
+              progressColorFrom="#6D6DC1"
               progressColorTo="#5D26C1"
-              onChange={(value) => setSleepTime(value)}
-              knobColor="#ffffff"
+              onChange={(value) => setSleepTime(timeData.indexOf(value))}
+              knobColor="#6D6DC1"
+              labelColor="#000"
+              labelFontSize="1.2rem"
+              verticalOffset={-10}
+              width={240}
             />
-            <button className="mt-4 px-6 py-2 rounded-lg bg-green-300/50 flex justify-center items-center">
-              Add
-              <AiOutlinePlus className="ml-1" />
-            </button>
           </div>
-        </div>
-        <div className="grow bg-[#E17576]">
-          <div
-            className={`flex flex-col h-full rounded-tr-[10vw] bg-white py-4 px-20 ${roboto.className}`}
+          <button
+            className="mt-4 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+            onClick={clickHandler}
           >
-            <h1 className={`text-xl font-bold ${roboto.className}`}>
-              Sleep Record
-            </h1>
-            <table className="table-auto mt-4 border border-slate-400 rounded-lg">
-              <thead>
+            {sleepRecord.length && sleepRecord[0].date === todaysDate ? (
+              <span className="flex justify-center items-center">
+                Edit <AiOutlineEdit className="ml-1" />{" "}
+              </span>
+            ) : (
+              <span className="flex justify-center items-center">
+                Add <AiOutlinePlus className="ml-1" />
+              </span>
+            )}
+          </button>
+        </div>
+      </div>
+      <div className="grow bg-[#6D6DC1]">
+        <div
+          className={`flex flex-col h-full rounded-tr-[10vw] bg-white py-4 px-20 ${roboto.className}`}
+        >
+          <h1 className={`text-xl font-bold ${roboto.className}`}>
+            Sleep Record
+          </h1>
+          {/* {sleepRecord.map((record, index) => {
+            return (
+              <SleepCard key={index} date={record.date} hours={record.hours} />
+            );
+          })} */}
+
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th>Date</th>
-                  <th>Sleep Time</th>
+                  <th scope="col" className="px-6 py-3">
+                    Date
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Time
+                  </th>
                 </tr>
               </thead>
               <tbody>
-            {sleepRecord.map((record, index) => {
-              return (
-                <tr key={index} className="text-center border-t-2 border-t-gray-600">
-                      <td>{record.date}</td>
-                      <td>{record.hours}</td>
-                </tr>
-              );
-            })}
+                {sleepRecord.map((record, index) => {
+                  return (
+                    // <SleepCard
+                    //   key={index}
+                    //   date={record.date}
+                    //   hours={record.hours}
+                    // />
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    >
+                      <td className="px-6 py-4 text-black">{record.date}</td>
+
+                      <td className="px-6 py-4 text-black">
+                        <div className="">
+                          <SleepSlider hours={record.hours} />
+                          {record.hours}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
-            </table> 
+            </table>
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default sleepTracker;

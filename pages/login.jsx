@@ -4,6 +4,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import "../app/globals.css";
 import { Roboto } from "@next/font/google";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "700"] });
 
@@ -13,6 +15,7 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
   const [error, setError] = useState(false);
 
   const onSubmit = async (data) => {
@@ -26,6 +29,7 @@ function LoginPage() {
       console.log(userCredential);
       if (userCredential.user) {
         errors.invalid = false;
+        router.push("/landingPage");
       }
     } catch (error) {
       setError("Invalid username or password!");
@@ -57,6 +61,7 @@ function LoginPage() {
         <div className="mb-4">
           <label className="block text-white font-medium mb-2">Password</label>
           <input
+            type="password"
             {...register("password", { required: true })}
             className={`w-full border border-gray-400 p-2 rounded-lg ${
               errors.password ? "border-red-500" : ""
@@ -67,7 +72,12 @@ function LoginPage() {
           )}
           {error && <p className="text-red-300">{error}</p>}
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex justify-end text-white">
+          <Link href="/signUp" className="grow text-end">
+            New User? Sign Up.
+          </Link>
+        </div>
+        <div className="flex flex-col justify-center items-center mt-4">
           <button className="bg-indigo-600 text-white drop-shadow-2xl p-2 rounded-lg hover:bg-indigo-800">
             Sign In
           </button>

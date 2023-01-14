@@ -4,10 +4,8 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['avatars.githubusercontent.com'],
+    domains: ["avatars.githubusercontent.com", "cdn-icons-png.flaticon.com"],
   },
+};
 
-
-}
-
-module.exports = nextConfig
+module.exports = nextConfig;
