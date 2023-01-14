@@ -26,10 +26,10 @@ const about_us = () => {
               className="rounded-full align-middle"
             />
             <a href='https://github.com/prasaya' ><h2 className='text-center'>Prasaya</h2></a>
-          </div>  
-        </div>
+          </div>
+          </div>
 
-        <div>
+          <div> 
           <div className="mx-2 shadow-3xl">
             <Image
               alt="Sankalpa"
@@ -38,10 +38,10 @@ const about_us = () => {
               height={150}
             />
             <a href='https://github.com/rijalsankalp'><h2 className='text-center'>Sankalpa</h2></a>
-          </div>  
-        </div>
+          </div>
+          </div>
 
-        <div>
+          <div>  
           <div className="mx-2 shadow-3xl">
             <Image
               alt="Saroj Prasad"
@@ -50,10 +50,10 @@ const about_us = () => {
               height={150}
             />
             <a href='https://github.com/voidcu'><h2 className='text-center'>Saroj Prasad</h2></a>
-          </div>  
-        </div>
+          </div>
+          </div>
 
-        <div>
+          <div>  
           <div className="mx-2 shadow-3xl">
             <Image
               alt="Suven"

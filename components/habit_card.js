@@ -5,31 +5,16 @@ const HabitCard = (props) => {
   const { image, title, category } = props;
   return (
     <div className="habit-card">
-      <div className="habit-card-title">{title}</div>
-      <div className="habit-card-category">{category}</div>
-
-      <div class="flex justify-center">
-        <div class="rounded-lg shadow-lg bg-white max-w-sm">
-          <a href="#!">
-            <img class="rounded-lg" src={image} alt={title} />
-          </a>
-          <div class="p-6">
-            <h5 class="text-gray-900 text-xl font-medium mb-2 text-center">
-              {title}
-            </h5>
-            <p class="text-gray-700 text-base mb-4">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <button
-              type="button"
-              class=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            >
-              Button
-            </button>
-          </div>
+      <a href="#" 
+      class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" 
+             src="/docs/images/blog/image-4.jpg" alt=""/>
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
         </div>
-      </div>
+      </a>
+
     </div>
   );
 };
