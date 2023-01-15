@@ -24,7 +24,7 @@ const NutritionTracker = () => {
     },
     {
       image: "https://cdn-icons-png.flaticon.com/512/7602/7602852.png",
-      title: "Steak",
+      title: "Sushi",
       calories: 250,
     },
   ]);
@@ -42,7 +42,14 @@ const NutritionTracker = () => {
 
   const addNewFood = () => {
     if (newFood.length > 0 && calories > 0) {
-      setFoods([...foods, { title: newFood, calories: calories }]);
+      setFoods([
+        ...foods,
+        {
+          image: "https://cdn-icons-png.flaticon.com/512/8239/8239550.png",
+          title: newFood,
+          calories: calories,
+        },
+      ]);
       setNewFood("");
       setCalories(0);
     } else {
@@ -55,10 +62,10 @@ const NutritionTracker = () => {
       <TopWelcome name={userDetails.name} image={userDetails.image} />
       <br />
       <br />
-      <div className="flex justify-center items-center space-x-10">
+      <div className="flex justify-center items-center space-x-10 mt-2">
         <div>
           <CircularSlider
-            width={125}
+            width={130}
             label="‎"
             labelColor={totalCalories > dailyCalories ? "#ff6600" : "#6D6DC1"}
             direction={1}
@@ -84,7 +91,7 @@ const NutritionTracker = () => {
           </div>
         </div>
       </div>
-      <div className="nutrition-tracker-title font-bold p-7">
+      <div className="nutrition-tracker-title font-bold p-7 pb-4 text-[1.3rem]">
         Nutrition Tracker
       </div>
       <div className="nutrition-tracker-cards">
@@ -106,8 +113,8 @@ const NutritionTracker = () => {
             <img
               src="https://cdn-icons-png.flaticon.com/512/1828/1828819.png"
               alt="+"
-              width="50"
-              height="50"
+              width="40"
+              height="40"
             />
           </button>
         </div>
@@ -139,5 +146,4 @@ const NutritionTracker = () => {
     </div>
   );
 };
-
 export default NutritionTracker;

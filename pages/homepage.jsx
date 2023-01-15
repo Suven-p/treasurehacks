@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import Link from "next/link";
 import "../app/globals.css";
-import { AuthContext } from '../context/AuthContext';
-import { useRouter } from 'next/router';
+import { AuthContext } from "../context/AuthContext";
+import { useRouter } from "next/router";
 
 function homepage() {
   const data = useContext(AuthContext);
   const router = useRouter();
-  if (data.isLoading) return (<div></div>);
+  if (data.isLoading) return <div></div>;
   if (data.user) {
-    router.replace('/landingPage');
+    router.replace("/landingPage");
   }
   const d = new Date();
   const monthList = [
@@ -48,8 +48,8 @@ function homepage() {
         </div>
       </div>
       <div className="flex flex-row items-center space-x-10 justify-center">
-        <div className="text-3xl text-white flex-wrap text-center  w-2/4 ">
-          Empowering healthier living, anytime, anywhere.
+        <div className="text-[2rem] text-white flex-wrap  w-2/4 ">
+          Flow into fitness with Fitness Flow
         </div>
         <Link className=" " href="/login">
           <div className="flex bg-white rounded-full w-[10vh] h-[10vh] items-center justify-center ">

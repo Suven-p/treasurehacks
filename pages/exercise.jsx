@@ -6,14 +6,12 @@ import Link from "next/link";
 import Stopwatch from "../components/stopwatch";
 import ExerciseCard from "../components/exercise_card";
 import TopWelcome from "../components/top_welcome.jsx";
+import useUserData from "@/utils/useUserData";
 
 export const exercise = () => {
+  const { userData } = useUserData();
   const [exerciseToDo, setExerciseToDo] = useState(0);
   const [isExercising, setIsExercising] = useState(false);
-  const [userDetails, setUserDetails] = React.useState({
-    name: "Prasaya",
-    image: "https://avatars.githubusercontent.com/u/47562404?v=4",
-  });
 
   const [todaysActivities, setTodaysActivities] = useState([
     {
@@ -38,16 +36,11 @@ export const exercise = () => {
     },
     {
       image: "https://cdn-icons-png.flaticon.com/512/5147/5147050.png",
-      name: "Push-ups",
+      name: "Pushups",
       time: 764,
     },
   ]);
 
-  const [userName, setUserName] = useState([
-    {
-      name: "prasaya",
-    },
-  ]);
   const addActivity = (activityName, time) => {
     setTodaysActivities((currentValue) => {
       const index = currentValue.findIndex((val) => val.name === activityName);
@@ -64,8 +57,14 @@ export const exercise = () => {
     ["Treadmill", "https://cdn-icons-png.flaticon.com/512/2382/2382679.png"],
     ["Handgrip", "https://cdn-icons-png.flaticon.com/512/7430/7430235.png"],
     ["Cycling", "https://cdn-icons-png.flaticon.com/512/3600/3600996.png"],
-    ["Push-ups", "https://cdn-icons-png.flaticon.com/512/5147/5147050.png"],
+    ["Pushups", "https://cdn-icons-png.flaticon.com/512/5147/5147050.png"],
   ];
+
+  const getExerciseImage = (exercise) => {
+    const exer = exercises.find((ex) => ex[0] === exercise);
+    if (exer) return exer[1];
+    return "";
+  };
 
   if (isExercising) {
     return (
@@ -79,7 +78,7 @@ export const exercise = () => {
   return (
     <div className="p-7">
       <div className="justify-between flex mb-1.5">
-        <TopWelcome name={userDetails.name} image={userDetails.image} />
+        <TopWelcome name={userData.firstName} image={userData.image} />
         <br />
         <br />
       </div>
@@ -102,7 +101,9 @@ export const exercise = () => {
         </button>
       </div>
 
-      <h1 className="text-left my-7 font-bold">Your exercise Menu</h1>
+      <h1 className="text-left my-7 font-bold text-[1.2rem]">
+        Your exercise Menu
+      </h1>
       <div>
         <div className="m-7 flex overflow-x-auto overflow-y-auto w-3/4 justify-left">
           {exercises.map(([exerciseName, image], index) => {
@@ -113,7 +114,7 @@ export const exercise = () => {
             return (
               <button
                 onClick={clickHandler}
-                className="shadow-3xl w-[150px] flex flex-col justify-center items-center grow-0 shrink-0"
+                className="mr-4 w-[150px] flex flex-col justify-center items-center grow-0 shrink-0"
                 key={index}
               >
                 <img alt={exerciseName} src={image} className="w-[5rem]" />
@@ -124,24 +125,16 @@ export const exercise = () => {
         </div>
       </div>
 
-      <h1 className="text-left font-bold py-7">Your activities to-day</h1>
-      {/* <div>
-        {todaysActivities.map(({ image, name, time }) => {
-          <ExerciseCard image={image} name={name} time={time} />;
-          return (
-            <p>
-              {name} {time}
-            </p>
-          );
-        })}
-      </div> */}
+      <h1 className="text-left font-bold py-7 text-[1.2rem]">
+        Your activities to-day
+      </h1>
 
       <div className="exercise-cards mb-4 space-y-4">
         {todaysActivities.map((todayActivity, index) => {
           return (
             <ExerciseCard
               key={index}
-              image={todayActivity.image}
+              image={getExerciseImage(todayActivity.name)}
               name={todayActivity.name}
               time={todayActivity.time}
             />

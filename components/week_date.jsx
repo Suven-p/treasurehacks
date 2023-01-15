@@ -7,7 +7,7 @@ const SingleCard = (props) => {
   return (
     <div className="flex flex-col justify-center  text-center bg-white border rounded-lg shadow-md w-20 h-16">
       {isToday ? (
-        <div className="border border-green-600">
+        <div className="">
           <div className="week text-green-800 opacity-75 font-bold">{week}</div>
           <div className="date text-green-800 opacity-75  font-bold">
             {date}

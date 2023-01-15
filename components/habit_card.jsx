@@ -2,9 +2,10 @@ import React from "react";
 import "../app/globals.css";
 import { FcOk } from "react-icons/fc";
 import { AiOutlineCheckCircle } from "react-icons/ai";
+import { FcCheckmark } from "react-icons/fc";
 
 const HabitCard = (props) => {
-  const { image, title, isCompleted } = props;
+  const { image, title, isCompleted, markAsCompleted } = props;
   return (
     <div className="habit-card m-4">
       <a
@@ -36,6 +37,17 @@ const HabitCard = (props) => {
             </div>
           )}
         </div>
+        {!isCompleted && (
+          <button
+            className="ml-auto w-8 mr-5"
+            onClick={(e) => {
+              e.preventDefault();
+              markAsCompleted(title);
+            }}
+          >
+            <FcCheckmark className="w-full text-[8rem]" />
+          </button>
+        )}
       </a>
     </div>
   );

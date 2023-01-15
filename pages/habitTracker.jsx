@@ -5,8 +5,13 @@ import TopWelcome from "../components/top_welcome.jsx";
 import CalendarCard from "../components/calendar.jsx";
 import CircularSlider from "@fseehawer/react-circular-slider";
 import internal from "stream";
+import { FcPlus } from "react-icons/fc";
+import useUserData from "@/utils/useUserData";
 
 const HabitTracker = () => {
+  const [showAddPrompt, setShowPrompt] = React.useState(false);
+
+  const { userData } = useUserData();
   const [userDetails, setUserDetails] = React.useState({
     name: "Prasaya",
     image: "https://avatars.githubusercontent.com/u/47562404?v=4",
@@ -26,20 +31,29 @@ const HabitTracker = () => {
     {
       image: "https://cdn-icons-png.flaticon.com/512/3475/3475650.png",
       title: "Meditate",
-      isCompleted: true,
+      isCompleted: false,
     },
   ]);
   const [totalComplete, setTotalComplete] = React.useState(2);
   const [totalWork, setTotalWork] = React.useState(3);
 
+  const markAsCompleted = (completedHabit) => {
+    setHabits((prevValue) => {
+      return prevValue.map((habit) => {
+        if (habit.title === completedHabit) {
+          habit.isCompleted = true;
+        }
+        return habit;
+      });
+    });
+  };
+
   useEffect(() => {
-    setTotalComplete(
-      habits.reduce((acc, habit) => acc + Number(habit.isCompleted), 0)
-    );
+    setTotalComplete(habits.filter((habit) => habit.isCompleted).length);
   }, [habits]);
 
   useEffect(() => {
-    setTotalWork(habits.reduce((acc, habit) => acc + 1, 0));
+    setTotalWork(habits.length);
   }, [habits]);
 
   return (
@@ -80,7 +94,17 @@ const HabitTracker = () => {
       </div>
 
       <br />
-      <div className="habit-tracker-title font-bold">Habit Tracker</div>
+      <div className="habit-tracker-title font-bold flex justify-between mr-6">
+        <p>Habit Tracker</p>
+        <button
+          onClick={() => {
+            setShowPrompt(true);
+            window.scrollTo({ top: document.body.scrollHeight });
+          }}
+        >
+          <FcPlus className="text-2xl mr-4" />
+        </button>
+      </div>
       <div className="habit-tracker-cards">
         {habits.map((habit, index) => {
           return (
@@ -89,10 +113,35 @@ const HabitTracker = () => {
               image={habit.image}
               title={habit.title}
               isCompleted={habit.isCompleted}
+              markAsCompleted={markAsCompleted}
             />
           );
         })}
       </div>
+
+      {showAddPrompt && (
+        <div className="add-bar rounded-lg shadow-lg h-52 mb-4 w-100 p-4">
+          <div className="p-4 flex flex-col gap-4 h-8">
+            <input
+              placeholder="Enter habit"
+              className="h-8 p-4 border border-slate-600 rounded-lg"
+            />
+            <input
+              placeholder="Enter custom image"
+              className="h-8 p-4 border border-slate-600 rounded-lg"
+            />
+            <button
+              className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full mb-4"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPrompt(false);
+              }}
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

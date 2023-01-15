@@ -11,7 +11,7 @@ const useUserData = () => {
         if (authData.isLoading || !authData.user) return;
         const _doc = doc(firestore, "users", authData.user.uid);
         const unsub = onSnapshot(_doc, (doc) => {
-            setUserData(doc.data() || {});
+            setUserData({ ...doc.data(), image: "https://avatars.githubusercontent.com/u/47562404?v=4" } || {});
         });
         return unsub;
     }, [authData]);

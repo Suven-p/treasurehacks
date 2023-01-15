@@ -17,7 +17,7 @@ const FoodCard = (props) => {
           alt={title}
         />
         <div className="justify-between p-4 leading-normal">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
+          <h5 className="mb-2 text-[1.3rem] font-bold tracking-tight text-gray-900 ">
             {title}
           </h5>
           <div className="flex items-center space-x-1">

@@ -5,7 +5,7 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 const ExerciseCard = (props) => {
   const { image, name, time } = props;
   return (
-    <div className="flex w-100">
+    <div className="flex w-100 h-24">
       <div className="grow flex items-center bg-white border rounded-xl shadow-md ">
         <img
           className="w-[3rem] object-cover ml-4 content-start rounded-t-lg md:rounded-none md:rounded-l-lg rounded-lg"

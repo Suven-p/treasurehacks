@@ -30,7 +30,7 @@ const CalendarCard = (props) => {
         <div className="">{dateWithFullMonthName}</div>
         <img
           src="https://cdn-icons-png.flaticon.com/512/2278/2278049.png"
-          className="h-[1rem] w-[1rem]"
+          className="h-[1.2rem] w-[1.2rem]"
         />
       </div>
       <WeekCard week="Mon" date="26" />
