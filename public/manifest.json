@@ -3,7 +3,12 @@
   "name": "FitnessFlow",
   "icons": [
     {
-      "src": "/public/background.png",
+      "src": "/icon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -11,6 +16,7 @@
   "start_url": "/",
   "display": "fullscreen",
   "theme_color": "#000000",
+  "background_color": "#0000a0",
   "description": "Flow into fitness with FitnessFlow",
   "orientation": "portrait"
 }
