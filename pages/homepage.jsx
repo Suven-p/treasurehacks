@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import "../app/globals.css";
+import { AuthContext } from '../context/AuthContext';
+import { useRouter } from 'next/router';
 
 function homepage() {
+  const data = useContext(AuthContext);
+  const router = useRouter();
+  if (data.isLoading) return (<div></div>);
+  if (data.user) {
+    router.replace('/landingPage');
+  }
   const d = new Date();
   const monthList = [
     "Jan",
@@ -22,15 +30,15 @@ function homepage() {
   const [date, setDate] = useState(d.getDate());
   const [time, setTime] = useState({ hour: d.getHours(), min: d.getMinutes() });
   return (
-    <div className="flex flex-col bg-bgimg bg-cover h-[100vh] w-[100vw] items-center justify-around space-y-10">
-      <div className="space-x-[40vw] space-y-[30vw] ">
-        <div className="bg-[#e6ddea] w-[22vw] h-[25vw] rounded-2xl text-3xl font-bold flex items-center justify-center flex-warp text-center justify-self-start ">
+    <div className="flex flex-col bg-bgimg bg-cover bg-center h-[100vh] w-[100vw] items-center justify-around">
+      <div className="space-x-[40vw] space-y-[30vh] ">
+        <div className="bg-[#e6ddea] w-32 h-32 rounded-2xl text-3xl font-bold flex items-center justify-center flex-warp text-center justify-self-start ">
           {monthList[month]}
           <br />
           {date}
         </div>
 
-        <div className="bg-[#f7e4b6] w-[22vw] h-[25vw] rounded-2xl text-3xl font-bold flex items-center justify-center flex-warp text-center">
+        <div className="bg-[#f7e4b6] w-32 h-32 rounded-2xl text-3xl font-bold flex items-center justify-center flex-warp text-center">
           {time["hour"] % 12 < 10
             ? "0" + (time["hour"] % 12)
             : time["hour"] % 12}
