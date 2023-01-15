@@ -6,9 +6,13 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   experimental: {
     appDir: true,
+    images: {
+      unoptimized: true,
+    },
   },
   images: {
     domains: ["avatars.githubusercontent.com", "cdn-icons-png.flaticon.com"],
+    unoptimized: true,
   },
   typescript: {
     // !! WARN !!
