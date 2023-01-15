@@ -3,7 +3,7 @@ const withPWA = require("next-pwa")({
 });
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withPWA({
   experimental: {
     appDir: true,
     images: {
@@ -26,6 +26,6 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-};
+});
 
 module.exports = nextConfig;
