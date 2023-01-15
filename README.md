@@ -29,7 +29,9 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
 # Images
+<p align="center">
+  <img alt="Homepage" width="200px" style="margin: 30px;" src="https://raw.githubusercontent.com/Suven-p/treasurehacks/main/images/homepage.png" />
+  <img alt="Homepage" width="200px" src="https://raw.githubusercontent.com/Suven-p/treasurehacks/main/images/habitpage.png" />
+<img alt="Homepage" width="200px" src="https://raw.githubusercontent.com/Suven-p/treasurehacks/main/images/nutritionpage.png" /></p>
 
-<img alt="Homepage" width="40px" src="https://github.com/Suven-p/treasurehacks/blob/main/Images/homepage.png" />
-[<img src="/image/homepage.png">]()
-![This is an image](https://github.com/Suven-p/treasurehacks/blob/main/Images/homepage.png)
+  <hr/>
